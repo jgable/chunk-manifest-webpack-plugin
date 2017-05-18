@@ -7,21 +7,28 @@ Allows exporting a JSON file that maps chunk ids to their resulting asset files.
 Install via npm:
 
 ```shell
-npm install chunk-manifest-webpack-plugin
+npm install --save-dev chunk-manifest-webpack-plugin
+```
+
+Install via yarn:
+
+```shell
+yarn add --dev chunk-manifest-webpack-plugin
 ```
 
 And then require and provide to webpack:
 
 ```javascript
 // in webpack.config.js or similar
-var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 
 module.exports = {
   // your config values here
   plugins: [
     new ChunkManifestPlugin({
-      filename: "manifest.json",
-      manifestVariable: "webpackManifest"
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest',
+      inlineManifest: false
     })
   ]
 };
@@ -36,3 +43,15 @@ Where the manifest will be exported to on bundle compilation. This will be relat
 #### `manifestVariable`
 
 What JS variable on the client webpack should refer to when requiring chunks. Default = `"webpackManifest"`
+
+#### `inlineManifest`
+
+Whether or not to write the manifest output into the [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin). Default = `false`
+
+```html
+// index.ejs
+<body>
+    <!-- app -->
+    <%= htmlWebpackPlugin.files.webpackManifest %>
+</body>
+```
